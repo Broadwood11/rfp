@@ -18,7 +18,10 @@ if not api_key:
     st.stop()
 
 client = OpenAI(api_key=api_key)
-persist_dir = r"C:\Users\broadwood\OneDrive - IGEL Technology GmbH\Coding Projects\RFP Answer\chroma_storage"
+# Persist the Chroma database in a path that can be overridden via the
+# `CHROMA_PERSIST_DIR` environment variable. Defaults to `chroma_storage`
+# in the current working directory so the app works cross-platform.
+persist_dir = os.getenv("CHROMA_PERSIST_DIR", "chroma_storage")
 chroma_client = chromadb.PersistentClient(path=persist_dir)
 collection = chroma_client.get_or_create_collection("rfp_answers")
 
